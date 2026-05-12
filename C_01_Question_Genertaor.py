@@ -76,22 +76,38 @@ def int_check(question, low=None, high=None, exit_code=None,):
         except ValueError:
             print(error)
 
+# #picks whether question will be area based or perimeter based
+# def generator(quest_type):
+#
+#     quest_type = "would you prefer area, perimeter questions or both(press <enter>)? "
+#     if quest_type == "":
+#
+#         quest_type = random.randint(1,2)
+#
+#         if quest_type == 1:
+#             area_quest = "true"
+#
+#         elif quest_type == 2:
+#             perim_quest = "true"
 
+
+area_quest = "false"
+perim_quest = "false"
 mode = "regular"
-rounds_played = 0
-loop = "true"
+questions_answered = 0
+roller = random.randint(1,2)
 
-# Ask the user for number of rounds / infinite mode
-num_rounds = int_check("Hello! How many questions would you like?: ",
-                       low=1, exit_code="")
+# Ask the user for number of questions / infinite mode
+num_questions = int_check("Hello! How many questions would you like?: ",
+                          low=1)
 
-if num_rounds == "infinite":
+if num_questions == "infinite":
     mode = "infinite"
-    num_rounds = 5
+    num_questions = 5
 
 
 # ask user if they want to customise the number range
-default_params = string_checker("Do you want the default height and width (1, 10)? ")
+default_params = string_checker("Do you want the default height and width (this will pick a random number between 1 & 10)? ")
 if default_params == "yes":
     low_num = 1
     high_num = 10
@@ -102,49 +118,82 @@ else:
     high_num = int_check("what would you like as the maximum? ", low=low_num + 1)
 
 # Game loop starts here
-while rounds_played < num_rounds:
+while questions_answered < num_questions:
 
     # Rounds headings (based on mode)
     if mode == "infinite":
-        round_heading = f"\n♾️♾️♾️ Question {rounds_played + 1} (Infinite mode) ♾️♾️♾️"
+        round_heading = f"\n♾️♾️♾️ Question {questions_answered + 1} (Infinite mode) ♾️♾️♾️"
     else:
-        round_heading = f"\n3️⃣2️⃣1️⃣ Question {rounds_played + 1} of {num_rounds} 1️⃣2️⃣3️⃣"
+        round_heading = f"\n3️⃣2️⃣1️⃣ Question {questions_answered + 1} of {num_questions} 1️⃣2️⃣3️⃣"
 
     print(round_heading)
 
+    roller = random.randint(1, 2)
 
-    #guess loop
-    while loop == "true":
+    # generate numbers for question
+    width = random.randint(low_num, high_num)
+    height = random.randint(low_num, high_num)
 
-        #generate numbers for question
-        width = random.randint(low_num,high_num)
-        height = random.randint(low_num,high_num)
-
-        #calculate answers
-        area = width * height
-        perimeter = 2 * (width + height)
-
-        #testing remove when done
-        print(area)
-        print(perimeter)
+    # calculate answers
+    area = width * height
+    perimeter = 2 * (width + height)
 
 
-        #print question
-        area_guess = int_check(f"If the width is {width} height is {height} what is the area: ")
+    if roller == 1:
+        area_quest = "true"
+        perim_quest = "false"
+    elif roller == 2:
+        perim_quest = "true"
+        area_quest = "false"
 
-        if area_guess == area:
-            print("you are correct")
-        else:
-            print("WRONG")
+    #testing remove when done
+    print("area", area)
+    print("perimeter", perimeter)
 
-        perimeter_guess = int_check(f"Using the same numbers what is the perimeter: ")
 
-        if perimeter_guess == perimeter:
+    # determine type of question and whether it is correct
+    if area_quest == "true":
+        user_ans = (int_check(f"if the width is {width} and the height is {height}"
+                        f" What is the area? ", exit_code="xxx"))
+        print(user_ans)
+
+        if user_ans == area:
             print("correct")
+
+        #allows user to exit quiz
+        elif user_ans == "xxx":
+            print("You left :(")
+            break
+
+
+
         else:
-            print("WRONG")
+            print("wrong")
+
+        # make rounds progress
+        questions_answered += 1
+
+    elif perim_quest == "true":
+        user_ans = (int_check(f"if the width is {width} and the height is {height}"
+                        f" What is the perimeter? ", exit_code="xxx"))
+        print(user_ans)
+
+        if user_ans == perimeter:
+            print("correct")
+
+        #allows user to exit quiz
+        elif user_ans == "xxx":
+            print("You left :(")
+            break
+
+        else:
+            print("wrong")
+
 
         # make round progress
-        rounds_played += 1
+        questions_answered += 1
+
+        if mode == "infinite":
+            num_questions += 1
 
 
