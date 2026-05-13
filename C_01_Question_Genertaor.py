@@ -51,7 +51,7 @@ def int_check(question, low=None, high=None, exit_code=None,):
         response = input(question).lower()
 
         # check for infinite mode
-        if response == "":
+        if response == "i":
             return "infinite"
 
         #check for infinite mode / exit code
@@ -76,20 +76,6 @@ def int_check(question, low=None, high=None, exit_code=None,):
         except ValueError:
             print(error)
 
-# #picks whether question will be area based or perimeter based
-# def generator(quest_type):
-#
-#     quest_type = "would you prefer area, perimeter questions or both(press <enter>)? "
-#     if quest_type == "":
-#
-#         quest_type = random.randint(1,2)
-#
-#         if quest_type == 1:
-#             area_quest = "true"
-#
-#         elif quest_type == 2:
-#             perim_quest = "true"
-
 
 area_quest = "false"
 perim_quest = "false"
@@ -98,7 +84,8 @@ questions_answered = 0
 roller = random.randint(1,2)
 
 # Ask the user for number of questions / infinite mode
-num_questions = int_check("Hello! How many questions would you like?: ",
+num_questions = int_check("Hello! How many questions would you like?"
+                          " 'i': ",
                           low=1)
 
 if num_questions == "infinite":
@@ -150,6 +137,10 @@ while questions_answered < num_questions:
     print("area", area)
     print("perimeter", perimeter)
 
+    # makes infinite mode infinite
+    if mode == "infinite":
+        num_questions += 1
+
 
     # determine type of question and whether it is correct
     if area_quest == "true":
@@ -157,8 +148,10 @@ while questions_answered < num_questions:
                         f" What is the area? ", exit_code="xxx"))
         print(user_ans)
 
+        # checks if user is correct
         if user_ans == area:
             print("correct")
+
 
         #allows user to exit quiz
         elif user_ans == "xxx":
@@ -166,7 +159,7 @@ while questions_answered < num_questions:
             break
 
 
-
+        #checks if user is wrong
         else:
             print("wrong")
 
@@ -193,7 +186,6 @@ while questions_answered < num_questions:
         # make round progress
         questions_answered += 1
 
-        if mode == "infinite":
-            num_questions += 1
+
 
 
