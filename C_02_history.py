@@ -81,7 +81,6 @@ area_quest = "false"
 perim_quest = "false"
 mode = "regular"
 quest_answered = 0
-roller = random.randint(1,2)
 quest_wrong = 0
 quest_right = 0
 quiz_results = []
@@ -119,7 +118,8 @@ while quest_answered < num_questions:
 
     print(round_heading)
 
-    roller = random.randint(1, 2)
+    #determines the type of question asked
+    quest_type = random.randint(1, 2)
 
     # generate numbers for question
     width = random.randint(low_num, high_num)
@@ -130,10 +130,11 @@ while quest_answered < num_questions:
     perimeter = 2 * (width + height)
 
 
-    if roller == 1:
+    #sorts type of question given
+    if quest_type == 1:
         area_quest = "true"
         perim_quest = "false"
-    elif roller == 2:
+    elif quest_type == 2:
         perim_quest = "true"
         area_quest = "false"
 
@@ -148,6 +149,8 @@ while quest_answered < num_questions:
 
     # determine type of question and whether it is correct
     if area_quest == "true":
+
+        #asks question,
         user_ans = (int_check(f"if the width is {width} and the height is {height}"
                         f" What is the area? ", exit_code="xxx"))
 
@@ -158,7 +161,7 @@ while quest_answered < num_questions:
 
         #allows user to exit quiz
         elif user_ans == "xxx":
-            print("You left :(")
+            print("\nYou left :(")
             break
 
         #checks if user is wrong
@@ -167,14 +170,17 @@ while quest_answered < num_questions:
             right_wrong = "wrong"
 
 
-        quest_results = f" At question {quest_answered + 1} you answered {user_ans} the answer was {area} you were {right_wrong}"
+        quest_results = f" At question {quest_answered + 1} you answered {user_ans} the answer was {area} you were {right_wrong}\n"
         print(quest_results)
 
         # make questions progress
         quest_answered += 1
 
+        quiz_results.append(quest_results)
 
+    # determine type of question and whether it is correct
     elif perim_quest == "true":
+
         user_ans = (int_check(f"if the width is {width} and the height is {height}"
                         f" What is the perimeter? ", exit_code="xxx"))
 
@@ -185,16 +191,17 @@ while quest_answered < num_questions:
 
         #allows user to exit quiz
         elif user_ans == "xxx":
-            print("You left :(")
+            print("\nYou left :(")
             break
 
         #checks if user is wrong
         else:
             quest_wrong += 1
+            # determines if question is wrong
             right_wrong = "wrong"
 
 
-        quest_results = f" At question {quest_answered + 1} you answered {user_ans} the answer was {perimeter} you were {right_wrong}"
+        quest_results = f" At question {quest_answered + 1} you answered {user_ans} the answer was {perimeter} you were {right_wrong}\n"
         print(quest_results)
 
         # make questions progress
@@ -209,12 +216,12 @@ want_end_result = string_checker("❔❓❔Would you like to see how you did?❓
 
 if want_end_result == "yes":
 
-    print("\nQuiz Results\n")
+    print("\n✨✨Quiz Results✨✨\n")
 
     for item in quiz_results:
         print(item)
 
-    print(f"\nSummary: You got {quest_right} questions right"
+    print(f"Summary: You got {quest_right} questions right"
           f" and {quest_wrong} questions wrong.")
 
 print("\nHave a lovely day!")
