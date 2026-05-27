@@ -169,10 +169,6 @@ while quest_answered < num_questions:
         perim_quest = "true"
         area_quest = "false"
 
-    # #testing remove when done
-    # print("area", area)
-    # print("perimeter", perimeter)
-
     # makes infinite mode infinite
     if mode == "infinite":
         num_questions += 1
